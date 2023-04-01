@@ -1,8 +1,12 @@
 import { CAC, Command } from 'cac';
-import { CommandConfig } from 'cac/deno/Command';
 import chalk from 'chalk';
 
-import { NewCommand, AsyncMiddleware, TUseParams } from '../types';
+import { NewCommand, AsyncMiddleware, AsyncMiddlewareOrArray } from '../../types';
+
+interface CommandConfig {
+  allowUnknownOptions?: boolean;
+  ignoreOptionDefaultValue?: boolean;
+}
 
 export default class MyCac extends CAC {
   constructor(name?: string) {
@@ -25,7 +29,7 @@ class MyCommand extends Command {
     this.middleware = [];
   }
 
-  use(callback?: TUseParams) {
+  use(callback?: AsyncMiddlewareOrArray) {
     if (!callback || !this.rawName) return this;
     if (Array.isArray(callback)) {
       this.middleware = callback;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const MyCac_1 = __importDefault(require("../src/MyCac"));
+const MyCac_1 = __importDefault(require("../src/utils/MyCac"));
 // console.log('CAC', CAC);
 const cac = (name = '') => new MyCac_1.default(name);
 const cli = cac('arm-cli');

@@ -6,7 +6,7 @@ export interface ICustomObj<T = any> {
 
 export type AsyncMiddleware = (...args: any[]) => Promise<void> | void;
 
-export type TUseParams = AsyncMiddleware | AsyncMiddleware[];
+export type AsyncMiddlewareOrArray = AsyncMiddleware | AsyncMiddleware[];
 export declare class NewCommand extends Command {
-  use: (callback?: TUseParams) => this;
+  use: (callback?: AsyncMiddlewareOrArray) => this;
 }

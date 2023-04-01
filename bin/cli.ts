@@ -1,4 +1,4 @@
-import CAC from '../src/MyCac';
+import CAC from '../src/utils/MyCac';
 import inquirer from 'inquirer';
 
 // console.log('CAC', CAC);
