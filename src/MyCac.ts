@@ -67,22 +67,22 @@ class MyCommand extends Command {
   action(callback: AsyncMiddleware): this {
     const _callback = async (...args: any[]) => {
       // console.log('args', args);
-      // // console.log('this.args', this.args);
-      // for (let i = 0; i < this.middleware.length; i++) {
-      //   await this.middleware[i].apply(this, args);
-      // }
+      // console.log('this.args', this.args);
+      for (let i = 0; i < this.middleware.length; i++) {
+        await this.middleware[i].apply(this, args);
+      }
 
-      // callback.apply(this, args);
+      callback.apply(this, args);
 
-      const fn = this.compose([...this.middleware, callback]);
-      fn.call(this.cli, args[0]).catch((err) => {
-        if (typeof err === 'string') {
-          console.log(chalk.red('[错误]: ' + err));
-        } else {
-          console.error(err);
-        }
-        process.exit(-1);
-      });
+      // const fn = this.compose([...this.middleware, callback]);
+      // fn.call(this.cli, args[0]).catch((err) => {
+      //   if (typeof err === 'string') {
+      //     console.log(chalk.red('[错误]: ' + err));
+      //   } else {
+      //     console.error(err);
+      //   }
+      //   process.exit(-1);
+      // });
     };
 
     super.action(_callback);

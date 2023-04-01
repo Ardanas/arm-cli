@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const cac_1 = require("cac");
-const chalk_1 = __importDefault(require("chalk"));
 class MyCac extends cac_1.CAC {
     constructor(name) {
         super(name);
@@ -67,21 +63,20 @@ class MyCommand extends cac_1.Command {
     action(callback) {
         const _callback = async (...args) => {
             // console.log('args', args);
-            // // console.log('this.args', this.args);
-            // for (let i = 0; i < this.middleware.length; i++) {
-            //   await this.middleware[i].apply(this, args);
-            // }
-            // callback.apply(this, args);
-            const fn = this.compose([...this.middleware, callback]);
-            fn.call(this.cli, args[0]).catch((err) => {
-                if (typeof err === 'string') {
-                    console.log(chalk_1.default.red('[错误]: ' + err));
-                }
-                else {
-                    console.error(err);
-                }
-                process.exit(-1);
-            });
+            // console.log('this.args', this.args);
+            for (let i = 0; i < this.middleware.length; i++) {
+                await this.middleware[i].apply(this, args);
+            }
+            callback.apply(this, args);
+            // const fn = this.compose([...this.middleware, callback]);
+            // fn.call(this.cli, args[0]).catch((err) => {
+            //   if (typeof err === 'string') {
+            //     console.log(chalk.red('[错误]: ' + err));
+            //   } else {
+            //     console.error(err);
+            //   }
+            //   process.exit(-1);
+            // });
         };
         super.action(_callback);
         return this;
