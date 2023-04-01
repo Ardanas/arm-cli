@@ -6,6 +6,9 @@
 
 // build
 
-import * as publishCli from './publish';
+// login
+
+// config
+
+import * as publishCli from './publish/inter';
 import * as types from '../types';
-const a: types.IObj = {};

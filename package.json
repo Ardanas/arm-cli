@@ -3,18 +3,22 @@
   "version": "1.0.0",
   "description": "Command line interface for ARM",
   "main": "./dist/index.js",
-  "bin": {
-    "arm-cli": "./bin/index.js"
-  },
+  "bin": "./dist/bin/cli.js",
   "scripts": {
+    "dev": "tsc -w",
     "build": "tsc"
   },
   "keywords": [],
   "author": "hms",
   "license": "MIT",
   "devDependencies": {
+    "@types/inquirer": "^9.0.3",
     "@types/node": "^18.15.3",
-    "cac": "^6.7.14",
     "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "cac": "^6.7.14",
+    "chalk": "4.1.2",
+    "inquirer": "^8.0.0"
   }
 }
