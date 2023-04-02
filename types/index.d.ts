@@ -4,7 +4,7 @@ export interface ICustomObj<T = any> {
   [key: string]: T;
 }
 
-export type AsyncMiddleware = (...args: any[]) => Promise<void> | void;
+export type AsyncMiddleware = (...args: any[]) => Promise<any> | void;
 
 export type AsyncMiddlewareOrArray = AsyncMiddleware | AsyncMiddleware[];
 export declare class NewCommand extends Command {

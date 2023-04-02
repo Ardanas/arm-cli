@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
+const mime_types_1 = __importDefault(require("mime-types"));
 const instance = axios_1.default.create({
     baseURL: '/arm',
     timeout: 60000,
@@ -18,36 +19,27 @@ instance.interceptors.request.use((config) => {
     return Promise.reject(err);
 });
 instance.interceptors.response.use((response) => {
-    const res = response.data;
-    if (!(res === null || res === void 0 ? void 0 : res.status)) {
-        return Promise.reject(res.msg);
+    const contentType = response.headers['Content-Type'];
+    const ext = mime_types_1.default.extension(contentType);
+    if (ext === 'json') {
+        const data = response.data;
+        if (!data.status)
+            return Promise.reject(data.msg);
+        return data;
     }
-    return res;
+    return response;
 }, (error) => {
-    var _a, _b;
-    console.dir(error);
-    if (axios_1.default.isCancel(error)) {
-        return Promise.reject(error);
-    }
+    // console.dir(error);
     const response = error.response;
-    const configUrl = (_a = response === null || response === void 0 ? void 0 : response.config) === null || _a === void 0 ? void 0 : _a.url;
-    if (response && !configUrl.match('/user/login')) {
+    if (response) {
         const { status, statusText } = response;
-        switch (status) {
-            case 404:
-                console.error('请求接口404');
-                break;
-            default:
-                console.error(statusText || '出错了');
-                break;
-        }
+        return Promise.reject(`[${status}]: ${statusText}`);
     }
     else if (error.code === 'ECONNABORTED' ||
         error.message === 'Network Error' ||
         error.message.includes('timeout')) {
-        console.error('请求超时');
-        return Promise.reject(error.message);
+        return Promise.reject(error.message || '请求超时');
     }
-    return Promise.reject((_b = error.response.data) === null || _b === void 0 ? void 0 : _b.msg);
+    return Promise.reject(`[${error.code}]: ${error.message}`);
 });
 exports.default = instance;

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const chalk_1 = __importDefault(require("chalk"));
 const MyCac_1 = __importDefault(require("../src/utils/MyCac"));
 const src_1 = require("../src");
 // console.log('CAC', CAC);
@@ -29,10 +30,10 @@ cli
     .command('download <url>', 'download file')
     .option('url [url]', '下载地址')
     .option('--path [path]', '目录', { default: '.' })
+    .use(src_1.downloadBefore)
     .action(async (url, options) => {
     if (!url)
         throw '缺少url';
-    console.log('url, options', options);
     await (0, src_1.downloadAction)(options.path, url);
 });
 try {
@@ -42,3 +43,6 @@ catch (error) {
     console.error(`${error}`);
     process.exit(1);
 }
+process.on('unhandledRejection', (reason, promise) => {
+    console.error(chalk_1.default.red(reason));
+});

@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.downloadAction = exports.publishAction = exports.getPublishTypeByPrompt = void 0;
+exports.downloadAction = exports.publishAction = exports.downloadBefore = exports.getPublishTypeByPrompt = void 0;
 // publish
 // download
 // build
@@ -36,6 +36,7 @@ exports.downloadAction = exports.publishAction = exports.getPublishTypeByPrompt 
 const inquirer_1 = __importDefault(require("inquirer"));
 const CONSTANT = __importStar(require("./config/constant"));
 const file_1 = require("./utils/file");
+const helper_1 = require("./utils/helper");
 const getPublishTypeByPrompt = async () => {
     const answers = await inquirer_1.default.prompt([
         {
@@ -48,6 +49,12 @@ const getPublishTypeByPrompt = async () => {
     return answers.type;
 };
 exports.getPublishTypeByPrompt = getPublishTypeByPrompt;
+const downloadBefore = (url) => {
+    const isValid = (0, helper_1.isValidUrl)(url);
+    if (!isValid)
+        throw '错误URL地址';
+};
+exports.downloadBefore = downloadBefore;
 const publishAction = async (dirpath, type) => { };
 exports.publishAction = publishAction;
 const downloadAction = async (dirpath, url) => {

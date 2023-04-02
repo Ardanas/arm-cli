@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "keywords": [],
   "author": "hms",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/inquirer": "^9.0.3",
+    "@types/mime-types": "^2.1.1",
     "@types/node": "^18.15.3",
     "typescript": "^5.0.2",
     "vitest": "^0.29.8"
@@ -24,6 +26,7 @@
     "cac": "^6.7.14",
     "chalk": "4.1.2",
     "fs-extra": "^11.1.1",
-    "inquirer": "^8.0.0"
+    "inquirer": "^8.0.0",
+    "mime-types": "^2.1.35"
   }
 }

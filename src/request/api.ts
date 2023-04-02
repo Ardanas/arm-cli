@@ -1,7 +1,12 @@
 import request from './axios';
 
-export function requestStream(url: string) {
-  return request.get(url, {
-    responseType: 'stream', //设置响应的数据类型为一个包含二进制数据的 Blob 对象，必须设置
-  });
+export async function requestStream(url: string) {
+  const response = await request.head(url);
+  if (response.status === 200 || (response.status === 204 && response.headers['content-length'] > 0)) {
+    return request.get(url, {
+      responseType: 'stream',
+    });
+  } else {
+    throw '确保资源是否存在';
+  }
 }

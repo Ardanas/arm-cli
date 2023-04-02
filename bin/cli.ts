@@ -1,5 +1,6 @@
+import chalk from 'chalk';
 import CAC from '../src/utils/MyCac';
-import { getPublishTypeByPrompt, publishAction, downloadAction } from '../src';
+import { getPublishTypeByPrompt, publishAction, downloadAction, downloadBefore } from '../src';
 // console.log('CAC', CAC);
 
 const cac = (name = '') => new CAC(name);
@@ -30,9 +31,9 @@ cli
   .command('download <url>', 'download file')
   .option('url [url]', '下载地址')
   .option('--path [path]', '目录', { default: '.' })
+  .use(downloadBefore)
   .action(async (url, options) => {
     if (!url) throw '缺少url';
-    console.log('url, options', options);
     await downloadAction(options.path, url);
   });
 
@@ -42,3 +43,7 @@ try {
   console.error(`${error}`);
   process.exit(1);
 }
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error(chalk.red(reason));
+});

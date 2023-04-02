@@ -16,6 +16,7 @@ import * as types from '../types';
 import * as CONSTANT from './config/constant';
 import NpmService from '../src/service/Npm';
 import { downloadStaticFile } from './utils/file';
+import { isValidUrl, formatUrl } from './utils/helper';
 
 export const getPublishTypeByPrompt = async () => {
   const answers = await inquirer.prompt([
@@ -27,6 +28,11 @@ export const getPublishTypeByPrompt = async () => {
     },
   ]);
   return answers.type;
+};
+
+export const downloadBefore = (url: string) => {
+  const isValid = isValidUrl(url);
+  if (!isValid) throw '错误URL地址';
 };
 
 export const publishAction = async (dirpath: string, type: string) => {};
